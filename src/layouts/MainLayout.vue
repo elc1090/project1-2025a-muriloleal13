@@ -1,9 +1,7 @@
 <template>
   <q-layout view="hHh lpR fFf">
     <MainHeader />
-    <q-page-container
-      class="bg-gradient-to-br from-[#091F4B] to-[#091F4C] min-h-screen text-white"
-    >
+    <q-page-container class="bg-secondary">
       <router-view />
     </q-page-container>
     <q-page-sticky position="bottom-right" :offset="[18, 18]">

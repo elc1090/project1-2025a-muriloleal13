@@ -1,31 +1,72 @@
 <template>
-  <q-page class="bg-dark text-white flex flex-col gap-8 p-8">
+  <q-page class="text-white flex flex-col gap-8 px-12 py-16">
     <q-carousel
       v-model="activeSlide"
+      ref="carousel"
       animated
       swipeable
-      navigation
       infinite
-      height="350px"
-      class="rounded-lg bg-dark overflow-hidden shadow-lg mb-8"
-      control-color="white"
+      height="80vh"
+      class="rounded-3xl bg-transparent overflow-hidden"
     >
-      <q-carousel-slide v-for="(slide, i) in bannerSlides" :key="i" :name="i">
-        <div
-          class="absolute inset-0 bg-black/50 flex items-center justify-center text-red px-6"
-        >
-          <div>
-            <h2 class="text-3xl md:text-4xl font-bold mb-2">
-              {{ slide.title }}
-            </h2>
-            <p class="text-lg">{{ slide.subtitle }}</p>
+      <q-carousel-slide v-for="(item, i) in bannerSlides" :key="i" :name="i">
+        <div class="flex flex-nowrap gap-12 w-full h-[70vh]">
+          <CardBanner
+            class="w-2/3 h-full rounded-xl text-white"
+            :data="item[0]"
+            :isMainCard="true"
+          />
+          <div class="grid grid-rows-2 h-full gap-12 w-1/3">
+            <CardBanner class="rounded-xl text-white" :data="item[1]" />
+            <CardBanner class="rounded-xl text-white" :data="item[2]" />
           </div>
         </div>
       </q-carousel-slide>
+      <template v-slot:control>
+        <q-carousel-control
+          class="flex justify-center gap-3"
+          position="bottom"
+          :offset="[18, 18]"
+        >
+          <q-btn
+            class="rounded-xl"
+            dense
+            color="white"
+            text-color="black"
+            icon="bi-chevron-left"
+            @click="$refs.carousel.previous()"
+          />
+          <div class="flex flex-nowrap items-center gap-1">
+            <q-btn
+              class="flex flex-nowrap items-center"
+              icon="bi-circle-fill"
+              dense
+              round
+              flat
+              size="xs"
+              :color="activeSlide == item ? 'accent' : 'white'"
+              @click.prevent="activeSlide = item"
+              v-for="item in Array.from(
+                { length: bannerSlides.length },
+                (_, i) => i
+              )"
+              :key="item"
+            />
+          </div>
+          <q-btn
+            class="rounded-xl"
+            dense
+            color="white"
+            text-color="black"
+            icon="bi-chevron-right"
+            @click="$refs.carousel.next()"
+          />
+        </q-carousel-control>
+      </template>
     </q-carousel>
 
     <div
-      class="bg-dark rounded-3xl flex flex-nowrap items-center justify-around mb-10"
+      class="bg-primary rounded-3xl flex flex-nowrap items-center justify-around py-8 mb-10"
     >
       <div
         class="flex flex-nowrap items-center gap-3"
@@ -41,7 +82,7 @@
           <span class="text-xl text-start w-full font-bold">
             {{ card.title }}
           </span>
-          <spanp class="text-3xl font-extrabold">{{ card.description }}</spanp>
+          <span class="text-3xl font-extrabold">{{ card.description }}</span>
         </div>
       </div>
     </div>
@@ -72,23 +113,86 @@
 </template>
 
 <script setup>
+import CardBanner from "src/components/CardBanner.vue";
 import { ref } from "vue";
 
-const activeSlide = ref(0);
-
 const bannerSlides = [
-  {
-    title: "Promoção de Fim de Semana",
-    subtitle: "Jogos com até 90% OFF",
-  },
-  {
-    title: "Pré-venda exclusiva",
-    subtitle: "Garanta já seu jogo antecipado",
-  },
-  {
-    title: "Jogos Gratuitos",
-    subtitle: "Aproveite games free-to-play agora!",
-  },
+  [
+    {
+      title: "Dia da caça ou dia do caçador?",
+      description:
+        "Mostre pra esses monstros enormes quem é que manda em até 6x sem juros!",
+      price: "249,00",
+      image:
+        "https://assets.nuuvem.com/image/upload/t_quality_80/v1/highlights/67939ed52c274a56bc3218d4/ngzudvizqzxs2fypysdt.jpg",
+      discount: 10,
+      steam: true,
+    },
+    {
+      title: "Cupom 5NUUPS",
+      price: "350,00",
+      image:
+        "https://assets.nuuvem.com/image/upload/t_quality_80/v1/highlights/67d9abdd0acf20b70c07952d/xqborxsa7efnn1ijamae.jpg",
+    },
+    {
+      title: "Jogos Gratuitos",
+      price: "176,90",
+      image:
+        "https://assets.nuuvem.com/image/upload/t_quality_80/v1/highlights/67ace97543b799f95512da4a/rv4djrlshtyny8gigqmm.jpg",
+      discount: 10,
+      steam: true,
+    },
+  ],
+  [
+    {
+      title: "Cupom TLOU",
+      description:
+        "Garanta já 16%OFF com cupom e ainda parcele em 6x SEM JUROS! Tá esperando o que?",
+      price: "R$ 199,00",
+      image:
+        "https://assets.nuuvem.com/image/upload/t_quality_80/v1/highlights/679162677282e358487ab51d/lf2o1vvyzd6rzwzsqxdx.jpg",
+      steam: true,
+    },
+    {
+      price: "R$ 54,50",
+      image:
+        "https://assets.nuuvem.com/image/upload/t_quality_80/v1/highlights/64da95c6d6cc6e0018ccedde/bxhu05h67vulmu5wajpv.jpg",
+      discount: 50,
+      steam: true,
+    },
+    {
+      price: "R$ 184,99",
+      image:
+        "https://assets.nuuvem.com/image/upload/t_quality_80/v1/highlights/673279713153bcf0eb2ed1a5/ajnbtmlj84sgpxbaz8j6.jpg",
+      discount: 38,
+      steam: true,
+    },
+  ],
+  [
+    {
+      title: "Keys liberadas!",
+      description:
+        "A Soul Society precisa de você! Experimente toda história da série em até 6x sem juros!",
+      price: "234,90",
+      image:
+        "https://assets.nuuvem.com/image/upload/t_quality_80/v1/highlights/67d3098f4bd6b3449a984240/msrrdtim4xosxqre7dok.jpg",
+      discount: 10,
+      steam: true,
+    },
+    {
+      title: "Cupom 5NUUPS",
+      price: "350,00",
+      image:
+        "https://assets.nuuvem.com/image/upload/t_quality_80/v1/highlights/67dd90e9513fe4e190744e24/smimjb6rtc5xpcoahmol.jpg",
+    },
+    {
+      price: "35,99",
+      image:
+        "https://assets.nuuvem.com/image/upload/t_quality_80/v1/highlights/65245b34165bdb00145a8d4f/sfeqe6sydaw5l64rfnyz.jpg",
+      discount: 80,
+      steam: true,
+    },
+  ],
 ];
 
 const promoCards = [
@@ -111,7 +215,9 @@ const promoCards = [
 
 const gameSections = [
   {
-    title: "Mais Vendidos",
+    title: "Jogos incríveis por menos de 20 reais",
+    description:
+      "Final do mês chegou e vamos salvar a sua gameplay de baixo custo",
     games: [
       {
         title: "Red Dead Redemption 2",
@@ -128,7 +234,8 @@ const gameSections = [
     ],
   },
   {
-    title: "Lançamentos",
+    title: "Warner",
+    description: "Jogos com até 95% de desconto!",
     games: [
       {
         title: "Like a Dragon: Infinite Wealth",
@@ -145,4 +252,7 @@ const gameSections = [
     ],
   },
 ];
+
+const carousel = ref(null);
+const activeSlide = ref(0);
 </script>

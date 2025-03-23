@@ -1,5 +1,5 @@
 <template>
-  <q-header class="bg-primary text-gray-800 shadow px-[40px] py-[20px]">
+  <q-header class="bg-primary text-gray-800 shadow px-[40px] py-[10px]">
     <div class="mx-auto flex items-center justify-between">
       <div class="flex items-center gap-2">
         <img
@@ -14,11 +14,12 @@
       >
         <nav
           v-if="showNavAndActions"
-          class="flex gap-6 text-sm font-medium transition-all duration-300"
+          class="flex gap-8 text-sm font-medium transition-all duration-300"
         >
           <HoverMenu
             :label="item.label"
             :icon="item.icon"
+            :color="item.color"
             v-for="item in menuData"
             :key="item.label"
           >
@@ -85,8 +86,8 @@
           text-color="white"
           icon="bi-person-fill"
           label="Entrar"
-          class="font-semibold"
-          size="lg"
+          class="font-bold text-lg"
+          padding="none"
           rounded
           flat
           no-caps
@@ -103,6 +104,7 @@ const menuData = [
   {
     label: "Destaques",
     icon: "bi-star-fill",
+    color: "#F36711",
     items: [
       { label: "Ver todos os produtos" },
       { label: "Campanha Nuuvem", icon: "bi-box-arrow-up-right" },
@@ -124,6 +126,7 @@ const menuData = [
   {
     label: "PC",
     icon: "bi-pc-display",
+    color: "#94199e",
     items: [
       { label: "Todos os produtos PC" },
       { label: "Promoções" },
@@ -149,6 +152,7 @@ const menuData = [
   {
     label: "Consoles",
     icon: "bi-controller",
+    color: "#4169e1",
     items: [
       { label: "Playstation", icon: "bi-playstation" },
       { label: "Xbox", icon: "bi-xbox" },
@@ -158,6 +162,7 @@ const menuData = [
   {
     label: "Mobile",
     icon: "bi-phone",
+    color: "#ff7e82",
     items: [
       { label: "Moedas e Gift Cards" },
       { label: "Cartão App Store", icon: "bi-apple" },
@@ -165,6 +170,7 @@ const menuData = [
   },
   {
     icon: "bi-three-dots",
+    color: "#87a96b",
     items: [
       { label: "Suporte", icon: "bi-headset" },
       { label: "Sobre", icon: "bi-info-circle" },
