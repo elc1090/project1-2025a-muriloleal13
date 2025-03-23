@@ -66,20 +66,20 @@
     </q-carousel>
 
     <div
-      class="bg-primary rounded-3xl flex flex-nowrap items-center justify-around py-8 mb-10"
+      class="bg-primary rounded-3xl flex flex-nowrap items-center justify-between p-8 mb-10"
     >
       <div
-        class="flex flex-nowrap items-center gap-3"
+        class="flex flex-nowrap items-center gap-5"
         v-for="(card, i) in promoCards"
         :key="i"
       >
         <q-icon
           :name="card.icon"
           class="text-transparent bg-clip-text bg-gradient-to-r from-[#FE2771] to-[#F36A0E]"
-          size="xl"
+          size="60px"
         />
         <div class="flex flex-col items-center justify-start text-white">
-          <span class="text-xl text-start w-full font-bold">
+          <span class="text-2xl text-start w-full font-bold">
             {{ card.title }}
           </span>
           <span class="text-3xl font-extrabold">{{ card.description }}</span>
@@ -87,33 +87,112 @@
       </div>
     </div>
 
-    <section v-for="section in gameSections" :key="section.title" class="mb-12">
-      <h2 class="text-2xl font-bold mb-4">{{ section.title }}</h2>
-      <div
-        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4"
-      >
-        <div
+    <section
+      class="flex flex-col gap-5 mb-12"
+      v-for="section in gameSections"
+      :key="section.title"
+    >
+      <div class="flex flex-nowrap justify-between">
+        <div class="flex flex-col gap-3">
+          <h2 class="text-5xl font-bold">{{ section.title }}</h2>
+          <h2 class="text-2xl font-bold">{{ section.description }}</h2>
+        </div>
+        <div class="flex items-end">
+          <q-btn
+            class="rounded-xl"
+            color="white"
+            label="Ver mais"
+            outline
+            no-caps
+            size="16px"
+          />
+        </div>
+      </div>
+      <div class="grid grid-cols-4 gap-4">
+        <q-card
           v-for="(game, index) in section.games"
           :key="index"
-          class="bg-white text-dark rounded-lg overflow-hidden shadow hover:scale-[1.02] transition-transform"
+          class="bg-gradient-to-r from-accent to-accent-2 text-white rounded-xl hover:scale-[1.02] transition-transform flex flex-col justify-between"
         >
+          <div class="flex items-center justify-center gap-3 w-full pt-2">
+            <q-icon name="bi-steam" />
+            <span class="text-white font-bold">Steam</span>
+          </div>
           <img
             :src="game.image"
             :alt="game.title"
             class="w-full h-40 object-cover"
           />
-          <div class="p-3">
-            <h3 class="text-sm font-semibold truncate">{{ game.title }}</h3>
-            <div class="text-xs text-gray-600">R$ {{ game.price }}</div>
-          </div>
-        </div>
+          <q-card-section class="flex flex-col gap-3">
+            <span class="text-lg font-bold truncate text-wrap">{{
+              game.title
+            }}</span>
+            <div class="flex flex-nowrap gap-1 w-full">
+              <q-chip
+                square
+                :label="item"
+                class="bg-primary text-white font-bold rounded-lg"
+                v-for="item in game.platform"
+                :key="item"
+              />
+            </div>
+            <div class="flex flex-nowrap items-center gap-3">
+              <q-icon color="white" name="bi-clock-fill" />
+              <span>
+                {{ game.time ? game.time : "Tempo limitado" }}
+              </span>
+            </div>
+          </q-card-section>
+          <q-card-section class="flex flex-nowrap items-center gap-3">
+            <div
+              class="bg-gradient-to-r from-[#FE2771] to-[#F36A0E] px-3 py-1 rounded-lg text-white"
+            >
+              <span class="font-bold text-xl"> -{{ game.discount }}% </span>
+            </div>
+            <span class="text-xl font-bold">R$ {{ game.price }}</span>
+          </q-card-section>
+        </q-card>
       </div>
     </section>
+    <q-card
+      class="relative bg-cover bg-center w-full h-[265px] rounded-xl"
+      :style="{
+        backgroundImage: `url('https://assets.nuuvem.com/image/upload/t_quality_80/v1/highlights/6377be29890ca400149068d5/sjqjwws97g0lmyu4gpfb.jpg')`,
+      }"
+    >
+      <div
+        class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-blue-800 to-transparent z-5"
+        :style="{ height: '200px' }"
+      ></div>
+      <div
+        class="absolute bottom-0 left-0 right-0 z-10 flex flex-nowrap justify-between p-6"
+      >
+        <div class="flex flex-col gap-3">
+          <div>
+            <q-chip
+              icon="bi-hurricane"
+              label="Ubisoft Connect"
+              color="primary"
+              text-color="white"
+              square
+              class="rounded-lg"
+            />
+          </div>
+          <span class="text-md text-white">
+            Nós temos Assassin's Creed em casa. O Assassin's Creed lá em casa:
+          </span>
+        </div>
+        <CardInfo
+          :data="{ discount: 80, oldPrice: '199,99', price: '39,99' }"
+        />
+      </div>
+    </q-card>
   </q-page>
 </template>
 
 <script setup>
 import CardBanner from "src/components/CardBanner.vue";
+import CardInfo from "src/components/CardInfo.vue";
 import { ref } from "vue";
 
 const bannerSlides = [
@@ -220,16 +299,40 @@ const gameSections = [
       "Final do mês chegou e vamos salvar a sua gameplay de baixo custo",
     games: [
       {
-        title: "Red Dead Redemption 2",
-        price: "99,90",
+        title: "Silent Hill Homecoming",
+        platform: ["Windows"],
+        time: "8d 12h 34m",
+        discount: 80,
+        price: "6,99",
+        image:
+          "https://assets.nuuvem.com/image/upload/t_banner_big/v1/products/557dbbf869702d0a9c24c700/banners/flolkkxvf5dq0datgihj.jpg",
       },
       {
-        title: "Cyberpunk 2077",
-        price: "59,90",
+        title: "LEGO Harry Potter Years 5-7",
+        platform: ["Windows"],
+        time: "0d 2h 34m",
+        discount: 90,
+        price: "8,99",
+        image:
+          "https://assets.nuuvem.com/image/upload/t_banner_big/v1/products/557dbb7669702d0a9c3a9900/banners/xtesdj70q0taq7r3apmr.jpg",
       },
       {
-        title: "FIFA 24",
-        price: "79,90",
+        title: "Middle-earth: Shadow of Mordor - Game of the Year Edition",
+        platform: ["Windows", "Linux", "macOS"],
+        time: "2d 5h 9m",
+        discount: 95,
+        price: "4,49",
+        image:
+          "https://assets.nuuvem.com/image/upload/t_banner_big/v1/products/557dbcb269702d0a9c600801/banners/lsv97mpj5fk77u9ghc1a.jpg",
+      },
+      {
+        title: "Jotun - Valhalla Edition",
+        platform: ["Windows", "Linux", "macOS"],
+        time: "0d 0h 7m",
+        discount: 85,
+        price: "4,19",
+        image:
+          "https://assets.nuuvem.com/image/upload/t_banner_big/v1/products/560964e169702d07050000a7/banners/mxqhylr7nf7o0x3guchq.jpg",
       },
     ],
   },
@@ -238,16 +341,40 @@ const gameSections = [
     description: "Jogos com até 95% de desconto!",
     games: [
       {
-        title: "Like a Dragon: Infinite Wealth",
-        price: "199,90",
+        title: "LEGO Star Wars™: The Skywalker Saga",
+        platform: ["Windows"],
+        time: "8d 12h 34m",
+        discount: 86,
+        price: "26,29",
+        image:
+          "https://assets.nuuvem.com/image/upload/t_banner_big/v1/products/61f186bb90f1e2247b551b7f/banners/sjqph3geidroun5v2mvn.jpg",
       },
       {
-        title: "Tekken 8",
-        price: "249,90",
+        title: "Batman Arkham Collection",
+        platform: ["Windows"],
+        time: "8d 12h 34m",
+        discount: 91,
+        price: "25,00",
+        image:
+          "https://assets.nuuvem.com/image/upload/t_banner_big/v1/products/61437f66a3f8b1386fb570e3/banners/dzgtvpre3btb2l6i9ife.jpg",
       },
       {
-        title: "Palworld",
-        price: "89,90",
+        title: "Back 4 Blood",
+        platform: ["Windows"],
+        time: "8d 12h 34m",
+        discount: 91,
+        price: "24,52",
+        image:
+          "https://assets.nuuvem.com/image/upload/t_banner_big/v1/products/60087598a3f8b147910a6750/banners/dmsyjen4zc3whgheq6x4.jpg",
+      },
+      {
+        title: "Mortal Kombat 11",
+        platform: ["Windows"],
+        time: "8d 12h 34m",
+        discount: 91,
+        price: "20,12",
+        image:
+          "https://assets.nuuvem.com/image/upload/t_banner_big/v1/products/5c5093428810242173c0bb5c/banners/d2m04tkhgphzxvcskrwk.jpg",
       },
     ],
   },

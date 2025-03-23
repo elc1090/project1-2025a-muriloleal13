@@ -51,7 +51,7 @@
           class="ml-6 transition-all duration-300 ease-in-out text-dark"
           :class="[
             searchActive
-              ? 'absolute w-full z-20 mx-auto max-w-3xl'
+              ? 'absolute w-full z-10 mx-auto max-w-3xl'
               : 'w-[120px] ',
           ]"
           @focus="onFocus"
