@@ -1,66 +1,67 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/-0GsTofh)
+
 # Projeto: Remake de site/app web
 
-> 1. Leia com atenção as instruções abaixo para editar este README em formato Markdown.
-> 2. Substitua todos os trechos de texto iniciados com "Substitua" por informações do seu projeto, conforme solicitado em cada trecho.
-> 3. Substitua a imagem por um screenshot do projeto (o arquivo pode ser armazenado no repositório ou em URL externa). GIFs animados também são permitidos!
-> 4. Remova todas as instruções de entrega.
-> 5. Double-check: Certifique-se de que seu README.md não contenha instruções de entrega!
-> 6. Entregue este README.md dentro da pasta raiz do seu repositório de entrega. Peça ajuda se não souber como editar ou entregar!
-> Opcional: você pode alterar a formatação do README, mas mantenha todas as informações solicitadas
+![Screenshot do projeto parcial](img/partial-full-page.png)
 
-![Substitua a imagem ao lado por um screenshot do seu projeto](img/chops-ux-step-4.png "Screenshot do projeto. Imagem temporária extraída de https://mdswanson.com/static/chops-ux-step-4.png")
-
-
-Acesso: Substitua este texto pela URL para acesso ao site publicado
-
+Acesso: [Nuuvem Remake](https://nuuvem-remake.netlify.app)
 
 #### Desenvolvedor(a)
-Substitua este texto pela sua identificação: nome e curso
+
+Murilo Leal - Ciência da Computação
 
 #### Cliente
-Substitua este texto pela identificação do cliente
 
-
-
+Mártin Renz
 
 #### Site/app original
 
 ##### Link
-Substitua este texto pela URL do site/app escolhido
+
+[Nuuvem](https://nuuvem.com)
 
 ##### Descrição
-Substitua este texto por uma descrição do site/app escolhido. Inclua observações sobre seu conteúdo, aparência e código.
+
+Site com com tonalidade principal azul, tema dark, cards arredondados e estrutura bem repetitiva, com grid de 4 cards seguidas de banners maiores.
 
 #### Demanda do(a) cliente
-Substitua este texto pela demanda do(a) cliente
+
+O remake deve ter o design mais similar possível ao site original.
+O remake deve ser responsivo.
+Deve conter a página inicial da Nuuvem, apresentando os principais jogos a venda, em promoção, etc..
+Deve ser possível pesquisar por jogos.
+Deve ser possível adicionar jogos no carrinho.
+Deve ser possível acessar a tela de login, porém a função de login não é necessária ser desenvolvida.
+Deve ser possível selecionar o botão superior a esquerda do site, que lista opções de jogos como Nintendo, Xbox, etc.. mas não é necessário desenvolver a página em si.
+Não é necessário desenvolver o assistente virtual que existe no site da Nuuvem.
+Outras rotinas como suporte, termos de uso, etc.. não são necessárias o desenvolvimento das páginas.
 
 #### Desenvolvimento
 
-Substitua este texto por uma descrição do processo de desenvolvimento, explicando suas escolhas para o remake e etapas do trabalho (por exemplo, como foi coletado o conteúdo, como você lidou com as demandas, etc.)
-
+Desenvolvimento feito com Vue.js 3, Quasar Framework para componentes, temas, tradução e funcionalidades nativas, além de TailwindCSS para estilizações.
 
 #### Tecnologias
 
-Substitua este trecho por uma lista detalhada de tecnologias usadas (tanto as básicas, como HTML e CSS, como as mais específicas, por exemplo Tailwind, etc.):
-- ...
-- ...
-- 
+- Vue.js 3 - Framework principal
+- Quasar Framework - Setup de projeto, biblioteca completa de componentes, triggers, utils, temas, tradução
+- TailwindCSS para estilizações inline
+- Pinia para controle e gerenciamento de estado
+- i18n para traduções
+- ESLint e Prettier para identação e controle de warnings
 
 #### Ambiente de desenvolvimento
 
-Substitua este trecho por uma lista detalhada dos ambientes/ferramentas de desenvolvimento que você usou (por exemplo, VS Code + alguma extensão, etc.)
-- ...
-- ...
+- VSCode para implementação
+- Netlify para deploy
 
 #### Referências e créditos
 
-Substitua este trecho por uma lista bem detalhada de todo material que você consultou para ajudar no projeto, por exemplo:  URL de templates usados, URL de icon kits usados, créditos para colegas que colaboraram, geradores de código (incluindo alguns prompts usados para o ChatGPT, se for o caso)
-- ...
-- ...
-
-
-
+- [Demais projetos feitos por mim](https://github.com/muriloleal13?tab=repositories)
+- [Quasar Framework](https://quasar.dev)
+- [TailwindCSS](https://tailwindcss.com)
+- [BootStrap Icons](https://icons.getbootstrap.com)
+- [Material Symbols](https://fonts.google.com/icons)
 
 ---
+
 Projeto entregue para a disciplina de [Desenvolvimento de Software para a Web](http://github.com/andreainfufsm/elc1090-2025a) em 2025a
