@@ -2,7 +2,7 @@
   "name": "nuuvem-remake",
   "version": "0.0.1",
   "description": "A Nuuvem remake app for web development course",
-  "productName": "Nuuvem Remake App",
+  "productName": "Nuuvem - Sua loja digital de jogos",
   "author": "muriloleal13 <msleal@inf.ufsm.br>",
   "private": true,
   "scripts": {
