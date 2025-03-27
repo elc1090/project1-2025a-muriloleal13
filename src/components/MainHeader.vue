@@ -76,7 +76,7 @@
           padding="md xl"
           rounded
           no-caps
-          v-if="$q.screen.gt.lg"
+          v-if="$q.screen.gt.md"
         >
           <template v-slot:default>
             <div class="flex items-center gap-2">
