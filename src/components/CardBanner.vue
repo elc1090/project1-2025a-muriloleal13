@@ -2,6 +2,8 @@
   <div
     class="relative overflow-hidden bg-cover bg-center"
     :style="{ backgroundImage: `url('${data.image}')` }"
+    @mouseenter="isHoverInfo = true"
+    @mouseleave="isHoverInfo = false"
   >
     <div
       class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-blue-800 to-transparent z-5"
@@ -15,11 +17,16 @@
         {{ data.title }}
       </span>
       <span class="text-h6" v-if="isMainCard">{{ data.description }}</span>
-      <CardInfo :data="data" :isMainCard="isMainCard" />
+      <CardInfo
+        :data="data"
+        :isMainCard="isMainCard"
+        :isHoverInfo="isHoverInfo"
+      />
     </div>
   </div>
 </template>
 <script setup>
+import { ref } from "vue";
 import CardInfo from "./CardInfo.vue";
 
 defineProps({
@@ -29,4 +36,6 @@ defineProps({
     default: false,
   },
 });
+
+const isHoverInfo = ref(false);
 </script>
