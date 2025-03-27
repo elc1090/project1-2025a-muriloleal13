@@ -1,5 +1,10 @@
 <template>
-  <q-page class="text-white flex flex-col gap-8 px-12 py-16">
+  <q-page
+    class="text-white flex flex-col gap-8"
+    :class="
+      $q.screen.gt.md ? 'px-12 py-16' : $q.screen.gt.sm ? 'px-5 py-10' : 'p-2'
+    "
+  >
     <q-carousel
       v-model="activeSlide"
       ref="carousel"
@@ -10,15 +15,25 @@
       class="rounded-3xl bg-transparent overflow-hidden"
     >
       <q-carousel-slide v-for="(item, i) in bannerSlides" :key="i" :name="i">
-        <div class="flex flex-nowrap gap-12 w-full h-[70vh]">
+        <div
+          class="flex lg:flex-nowrap w-full h-[70vh]"
+          :class="
+            $q.screen.gt.md ? 'gap-12' : $q.screen.gt.sm ? 'gap-5' : 'gap-3'
+          "
+        >
           <CardBanner
-            class="w-2/3 h-full rounded-xl text-white"
+            class="lg:w-2/3 w-full h-full rounded-3xl text-white"
             :data="item[0]"
             :isMainCard="true"
           />
-          <div class="grid grid-rows-2 h-full gap-12 w-1/3">
-            <CardBanner class="rounded-xl text-white" :data="item[1]" />
-            <CardBanner class="rounded-xl text-white" :data="item[2]" />
+          <div
+            class="grid grid-rows-2 h-full lg:w-1/3 w-full"
+            :class="
+              $q.screen.gt.md ? 'gap-12' : $q.screen.gt.sm ? 'gap-5' : 'gap-3'
+            "
+          >
+            <CardBanner class="rounded-3xl text-white" :data="item[1]" />
+            <CardBanner class="rounded-3xl text-white" :data="item[2]" />
           </div>
         </div>
       </q-carousel-slide>
@@ -66,7 +81,7 @@
     </q-carousel>
 
     <div
-      class="bg-primary rounded-3xl flex flex-nowrap items-center justify-between p-8 mb-10"
+      class="bg-primary rounded-3xl flex items-center justify-between gap-3 p-8 mb-10"
     >
       <div
         class="flex flex-nowrap items-center gap-5"
@@ -78,7 +93,9 @@
           class="text-transparent bg-clip-text bg-gradient-to-r from-[#FE2771] to-[#F36A0E]"
           size="60px"
         />
-        <div class="flex flex-col items-center justify-start text-white">
+        <div
+          class="flex flex-col items-center justify-start text-white text-nowrap"
+        >
           <span class="text-2xl text-start w-full font-bold">
             {{ card.title }}
           </span>
@@ -109,7 +126,16 @@
               />
             </div>
           </div>
-          <div class="grid grid-cols-4 gap-12">
+          <div
+            class="grid"
+            :class="[
+              $q.screen.gt.md
+                ? 'grid-cols-4 gap-12'
+                : $q.screen.gt.sm
+                ? 'grid-cols-3 gap-5'
+                : 'grid-cols-2 gap-3',
+            ]"
+          >
             <CardGrid
               :data="game"
               v-for="(game, index) in section.games"
@@ -119,14 +145,14 @@
         </section>
       </template>
       <q-card
-        class="relative bg-cover bg-center w-full h-[265px] rounded-xl"
+        class="relative bg-cover bg-center w-full h-[265px] rounded-3xl"
         :style="{
           backgroundImage: `url(${sect.image})`,
         }"
-        v-else
+        v-else-if="$q.screen.gt.md"
       >
         <div
-          class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-blue-800 to-transparent z-5"
+          class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-blue-800 to-transparent z-5 !rounded-3xl"
           :style="{ height: '200px' }"
         ></div>
         <div
@@ -157,10 +183,11 @@
 </template>
 
 <script setup>
+import { useQuasar } from "quasar";
 import CardBanner from "src/components/CardBanner.vue";
 import CardGrid from "src/components/CardGrid.vue";
 import CardInfo from "src/components/CardInfo.vue";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 const bannerSlides = [
   [
@@ -456,6 +483,11 @@ const sectionData = [
   },
 ];
 
+const $q = useQuasar();
 const carousel = ref(null);
 const activeSlide = ref(0);
+
+const getGrid = computed(() => (data) => {
+  return data.slice(0, $q.screen.gt.md ? "4" : $q.screen.gt.sm ? "3" : "3");
+});
 </script>

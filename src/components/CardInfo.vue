@@ -42,10 +42,10 @@
       color="positive"
       text-color="black"
       push
-      padding="xs"
+      padding="xs md"
       no-caps
       glossy
-      v-show="isHoverInfo"
+      v-show="!isMainCard && isHoverInfo"
     />
     <q-btn
       :class="{

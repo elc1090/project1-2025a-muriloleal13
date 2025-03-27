@@ -1,6 +1,6 @@
 <template>
   <q-card
-    class="bg-gradient-to-r from-accent to-accent-2 text-white rounded-xl hover:border-4 hover:border-blue-800 hover:shadow-lg hover:shadow-blue-800 transition-transform flex flex-col h-full"
+    class="bg-gradient-to-r from-accent to-accent-2 text-white rounded-3xl hover:border-4 hover:border-blue-800 hover:shadow-lg hover:shadow-blue-800 transition-transform flex flex-col h-full"
     @mouseenter="isHoverInfo = true"
     @mouseleave="isHoverInfo = false"
   >
@@ -8,7 +8,12 @@
       <q-icon name="bi-steam" />
       <span class="text-white font-bold">Steam</span>
     </div>
-    <img :src="data.image" :alt="data.title" class="w-full h-40 object-cover" />
+    <img
+      :src="data.image"
+      :alt="data.title"
+      class="w-full object-cover"
+      :class="$q.screen.gt.md ? 'h-40' : 'h-20'"
+    />
     <q-card-section class="flex flex-col gap-3">
       <span class="text-lg font-bold truncate text-wrap">{{ data.title }}</span>
       <div class="flex gap-1 w-full">

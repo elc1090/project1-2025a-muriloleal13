@@ -2,18 +2,18 @@
   <q-header class="bg-primary text-gray-800 shadow px-[40px] py-[10px]">
     <div class="mx-auto flex items-center justify-between">
       <div class="flex items-center gap-2">
+        <q-icon name="bi-list" color="white" size="lg" v-if="$q.screen.lt.lg" />
         <img
           src="/assets/logo-nuuvem.svg"
           alt="Nuuvem"
-          class="w-[212px] h-[40px]"
+          :class="$q.screen.gt.md ? 'w-[212px] h-[40px]' : 'w-[120px] '"
         />
       </div>
-
       <div
         class="flex-1 flex justify-center items-center relative transition-all"
       >
         <nav
-          v-if="showNavAndActions"
+          v-if="showNavAndActions && $q.screen.gt.md"
           class="flex gap-8 text-sm font-medium transition-all duration-300"
         >
           <HoverMenu
@@ -42,27 +42,32 @@
         </nav>
         <q-input
           v-model="search"
-          rounded
-          standout
+          :rounded="$q.screen.gt.md || searchActive"
+          :standout="$q.screen.gt.md || searchActive"
+          :borderless="$q.screen.lt.lg && !searchActive"
           :dark="true"
+          :placeholder="$q.screen.gt.md ? 'Buscar' : ''"
           color="white"
           debounce="300"
-          placeholder="Buscar"
-          class="ml-6 transition-all duration-300 ease-in-out text-dark"
+          class="transition-all duration-300 ease-in-out text-dark"
           :class="[
             searchActive
-              ? 'absolute w-full z-10 mx-auto max-w-3xl'
-              : 'w-[120px] ',
+              ? 'absolute w-full z-10 mx-auto max-w-3xl '
+              : $q.screen.gt.md
+              ? 'ml-6 w-[120px]'
+              : 'w-[60px]',
           ]"
           @focus="onFocus"
           @blur="onBlur"
         >
-          <template v-slot:append>
+          <template v-slot:append v-if="$q.screen.gt.md">
             <q-icon name="search" />
+          </template>
+          <template v-slot:default v-else>
+            <q-icon name="search" size="md" />
           </template>
         </q-input>
       </div>
-
       <div class="flex items-center gap-4">
         <q-btn
           color="secondary"
@@ -71,6 +76,7 @@
           padding="md xl"
           rounded
           no-caps
+          v-if="$q.screen.gt.lg"
         >
           <template v-slot:default>
             <div class="flex items-center gap-2">
