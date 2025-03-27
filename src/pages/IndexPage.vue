@@ -11,6 +11,7 @@
       animated
       swipeable
       infinite
+      autoplay
       height="80vh"
       class="rounded-3xl bg-transparent overflow-hidden"
     >
