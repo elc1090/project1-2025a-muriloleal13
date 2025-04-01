@@ -3,11 +3,13 @@
     <div class="mx-auto flex items-center justify-between">
       <div class="flex items-center gap-2">
         <q-icon name="bi-list" color="white" size="lg" v-if="$q.screen.lt.lg" />
-        <img
-          src="/assets/logo-nuuvem.svg"
-          alt="Nuuvem"
-          :class="$q.screen.gt.md ? 'w-[212px] h-[40px]' : 'w-[120px] '"
-        />
+        <router-link to="/">
+          <img
+            src="/assets/logo-nuuvem.svg"
+            alt="Nuuvem"
+            :class="$q.screen.gt.md ? 'w-[212px] h-[40px]' : 'w-[120px] '"
+          />
+        </router-link>
       </div>
       <div
         class="flex-1 flex justify-center items-center relative transition-all"
@@ -70,21 +72,97 @@
       </div>
       <div class="flex items-center gap-4">
         <q-btn
-          color="secondary"
+          :color="chartData.length ? 'positive' : 'secondary'"
           text-color="white"
           class="font-semibold"
           padding="md xl"
           rounded
           no-caps
+          :glossy="chartData.length"
           v-if="$q.screen.gt.md"
         >
           <template v-slot:default>
             <div class="flex items-center gap-2">
-              <q-icon color="white" class="opacity-30" name="bi-cart-fill" />
-              <span class="text-white opacity-30 text-lg">
-                {{ chart.length }}
+              <q-icon
+                :color="chartData.length ? 'black' : 'white'"
+                :class="{ 'opacity-30': !chartData.length }"
+                name="bi-cart-fill"
+              />
+              <span
+                :class="{
+                  'opacity-30 text-lg text-white': !chartData.length,
+                  'text-black': chartData.length,
+                }"
+              >
+                {{ chartData.length }}
               </span>
             </div>
+            <q-menu
+              class="bg-gradient-to-tr from-secondary to-accent rounded-3xl py-3 px-5 text-black shadow-xl !w-[450px]"
+              :offset="[0, 10]"
+              anchor="bottom middle"
+              self="top right"
+            >
+              <!-- <q-scroll-area
+                :style="{
+                  height: '350px',
+                  width: '100%',
+                }"
+              > -->
+              <div class="flex flex-col gap-3 h-full">
+                <div
+                  class="flex flex-nowrap items-center justify-between w-full"
+                >
+                  <span class="text-xl text-white font-bold">Carrinho</span>
+                  <q-btn icon="bi-x" color="white" flat v-close-popup />
+                </div>
+                <q-list class="flex flex-col gap-1">
+                  <q-item v-for="(item, idx) in chartData" :key="idx">
+                    <q-item-section>
+                      <q-img class="rounded-xl" :src="item.image" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label class="text-white font-bold">
+                        {{ item.title }}
+                      </q-item-label>
+                      <q-item-label caption class="text-white">
+                        R$ {{ item.price }}
+                      </q-item-label>
+                    </q-item-section>
+                    <q-item-section side>
+                      <q-btn
+                        icon="bi-trash2"
+                        color="negative"
+                        dense
+                        push
+                        @click.prevent="
+                          chartStore.storageChartSave([
+                            ...chartData.filter((it) => it.title != item.title),
+                          ])
+                        "
+                      />
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+                <q-separator dark />
+                <div
+                  class="flex flex-nowrap items-center justify-between w-full"
+                >
+                  <span class="text-white font-bold text-lg">
+                    R$ {{ getTotal }}</span
+                  >
+                  <q-btn
+                    class="rounded-xl"
+                    label="Finalizar"
+                    color="positive"
+                    icon="bi-cart-fill"
+                    text-color="black"
+                    glossy
+                  />
+                </div>
+              </div>
+              <!-- </q-scroll-area> -->
+            </q-menu>
           </template>
         </q-btn>
         <q-btn
@@ -93,7 +171,8 @@
           icon="bi-person-fill"
           label="Entrar"
           class="font-bold text-lg"
-          padding="none"
+          padding="sm"
+          to="/login"
           rounded
           flat
           no-caps
@@ -103,8 +182,9 @@
   </q-header>
 </template>
 <script setup>
-import { ref } from "vue";
+import { computed, ref, watch } from "vue";
 import HoverMenu from "./HoverMenu.vue";
+import { useChartStore } from "src/stores/chartStore";
 
 const menuData = [
   {
@@ -184,10 +264,23 @@ const menuData = [
   },
 ];
 
+const chartStore = useChartStore();
+const { chartData } = chartStore;
 const search = ref("");
 const searchActive = ref(false);
 const showNavAndActions = ref(true);
-const chart = ref([]);
+
+watch(chartData, (newValue) => {
+  console.log("🚀 ~ watch ~ newValue:", newValue);
+  // lstChart.value = newValue
+});
+
+const getTotal = computed(() =>
+  chartData.reduce(
+    (acc, it) => acc + parseFloat(it.price.replaceAll(",", ".")),
+    0
+  )
+);
 
 const onFocus = () => {
   showNavAndActions.value = false;

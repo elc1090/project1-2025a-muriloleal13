@@ -62,7 +62,7 @@
     <q-card-section class="flex flex-col gap-3">
       <template v-if="!loaded">
         <div class="flex items-center gap-3">
-          <q-skeleton type="QIcon" size="16px" />
+          <q-skeleton type="circle" size="16px" />
           <q-skeleton type="text" width="100px" />
         </div>
       </template>

@@ -22,29 +22,32 @@
         R$ {{ data.price }}
       </span>
     </div>
+
     <q-btn
       class="font-bold text-lg"
       icon="bi-cart-plus"
-      label="Comprar"
+      :label="!!inChartList ? 'Remover' : 'Comprar'"
       color="positive"
       text-color="black"
       no-wrap
       push
       no-caps
       glossy
+      @click.prevent="() => (!!inChartList ? removeFromChart() : addToChart())"
       v-if="isMainCard"
     />
     <q-btn
       class="font-bold text-lg opacity-0 transition-opacity duration-300 ease-in-out"
       :class="{ grow: isGrid, 'opacity-100': isHoverInfo }"
-      icon="bi-cart-plus"
+      :icon="`bi-cart-${!!inChartList ? 'dash' : 'plus'}`"
       :label="`R$${data.price}`"
-      color="positive"
+      :color="!!inChartList ? 'negative' : 'positive'"
       text-color="black"
       push
       padding="xs md"
       no-caps
       glossy
+      @click.prevent="() => (!!inChartList ? removeFromChart() : addToChart())"
       v-show="!isMainCard && isHoverInfo"
     />
     <q-btn
@@ -57,12 +60,17 @@
       padding="sm"
       push
       no-caps
+      @click.prevent="addToWishes"
       v-if="isMainCard || isHoverInfo"
     />
   </div>
 </template>
 <script setup>
-defineProps({
+import { useChartStore } from "src/stores/chartStore";
+import { useWishesStore } from "src/stores/wishesStore";
+import { computed } from "vue";
+
+const props = defineProps({
   data: Object,
   isMainCard: {
     type: Boolean,
@@ -74,4 +82,30 @@ defineProps({
     default: false,
   },
 });
+
+const chartStore = useChartStore();
+const wishesStore = useWishesStore();
+
+const inChartList = computed(() =>
+  chartStore.storeChartDataGetter.find((it) => it.title == props.data.title)
+);
+
+const addToChart = () => {
+  chartStore.storageChartSave([...chartStore.storeChartDataGetter, props.data]);
+};
+
+const removeFromChart = () => {
+  chartStore.storageChartSave([
+    ...chartStore.storeChartDataGetter.filter(
+      (it) => it.title != props.data.title
+    ),
+  ]);
+};
+
+const addToWishes = () => {
+  wishesStore.storageChartSave([
+    ...wishesStore.storeChartDataGetter,
+    props.data,
+  ]);
+};
 </script>
