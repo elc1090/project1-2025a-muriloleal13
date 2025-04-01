@@ -183,7 +183,7 @@
   </q-header>
 </template>
 <script setup>
-import { computed, ref, watch } from "vue";
+import { computed, ref } from "vue";
 import HoverMenu from "./HoverMenu.vue";
 import { useChartStore } from "src/stores/chartStore";
 import { useRouter } from "vue-router";
@@ -268,18 +268,14 @@ const menuData = [
 
 const router = useRouter();
 const chartStore = useChartStore();
-const { chartData } = chartStore;
 const search = ref("");
 const searchActive = ref(false);
 const showNavAndActions = ref(true);
 
-watch(chartData, (newValue) => {
-  console.log("🚀 ~ watch ~ newValue:", newValue);
-  // lstChart.value = newValue
-});
+const chartData = computed(() => chartStore.storeChartDataGetter);
 
 const getTotal = computed(() =>
-  chartData.reduce(
+  chartData.value.reduce(
     (acc, it) => acc + parseFloat(it.price.replaceAll(",", ".")),
     0
   )
