@@ -61,6 +61,7 @@
           ]"
           @focus="onFocus"
           @blur="onBlur"
+          @keyup.enter="router.push(`/search/${search}`)"
         >
           <template v-slot:append v-if="$q.screen.gt.md">
             <q-icon name="search" />
@@ -185,6 +186,7 @@
 import { computed, ref, watch } from "vue";
 import HoverMenu from "./HoverMenu.vue";
 import { useChartStore } from "src/stores/chartStore";
+import { useRouter } from "vue-router";
 
 const menuData = [
   {
@@ -264,6 +266,7 @@ const menuData = [
   },
 ];
 
+const router = useRouter();
 const chartStore = useChartStore();
 const { chartData } = chartStore;
 const search = ref("");
